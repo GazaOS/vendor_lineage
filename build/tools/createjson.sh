@@ -21,12 +21,11 @@ else
 fi
 
 # Set OTA json location
+DOWNLOAD_URL="https://github.com/GazaOS/releases/download/${VERSION:-16.2}/${FILENAME}"
 if [[ "$BUILD_VARIANT" == "vanilla" ]]; then
     existingOTAjson="./vendor/OTA/builds/vanilla/${DEVICE}.json"
-    DOWNLOAD_URL="https://sourceforge.net/projects/ghosuto/files/${DEVICE}/vanilla/${FILENAME}/download"
 else
     existingOTAjson="./vendor/OTA/builds/${DEVICE}.json"
-    DOWNLOAD_URL="https://sourceforge.net/projects/ghosuto/files/${DEVICE}/${FILENAME}/download"
 fi
 
 output="${PRODUCT_OUT}/${DEVICE}.json"
