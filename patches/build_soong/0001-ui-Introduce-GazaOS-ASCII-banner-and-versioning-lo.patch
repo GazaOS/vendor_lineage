@@ -1,0 +1,63 @@
+diff --git a/ui/build/dumpvars.go b/ui/build/dumpvars.go
+index adaf79949..49620b4de 100644
+--- a/ui/build/dumpvars.go
++++ b/ui/build/dumpvars.go
+@@ -154,6 +154,10 @@ func dumpMakeVars(ctx Context, config Config, goals, vars []string, write_soong_
+ var BannerVars = []string{
+ 	"PLATFORM_VERSION_CODENAME",
+ 	"PLATFORM_VERSION",
++	"GAZAOS_VERSION",
++	"GAZAOS_BUILD_TYPE",
++	"GAZAOS_BUILD_VARIANT",
++	"GAZAOS_MAINTAINER",
+ 	"LUNARIS_VERSION",
+ 	"LUNARIS_BUILD_TYPE",
+ 	"LUNARIS_BUILD_VARIANT",
+@@ -189,18 +193,38 @@ func Banner(config Config, make_vars map[string]string) string {
+ 
+ 	fmt.Fprintln(b, "==============================================================================")
+ 	fmt.Fprintln(b, "                                                           				   ")
+-	fmt.Fprintln(b, "  ██╗     ██╗   ██╗███╗   ██╗ █████╗ ██████╗ ██╗███████╗     ██████╗ ███████╗ ")
+-	fmt.Fprintln(b, "  ██║     ██║   ██║████╗  ██║██╔══██╗██╔══██╗██║██╔════╝    ██╔═══██╗██╔════╝ ")
+-	fmt.Fprintln(b, "  ██║     ██║   ██║██╔██╗ ██║███████║██████╔╝██║███████╗    ██║   ██║███████╗ ")
+-	fmt.Fprintln(b, "  ██║     ██║   ██║██║╚██╗██║██╔══██║██╔══██╗██║╚════██║    ██║   ██║╚════██║ ")
+-	fmt.Fprintln(b, "  ███████╗╚██████╔╝██║ ╚████║██║  ██║██║  ██║██║███████║    ╚██████╔╝███████║ ")
+-	fmt.Fprintln(b, "  ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚══════╝     ╚═════╝ ╚══════  ")
++	fmt.Fprintln(b, "   ██████╗  █████╗ ███████╗ █████╗  ██████╗ ███████╗                          ")
++	fmt.Fprintln(b, "  ██╔════╝ ██╔══██╗╚══███╔╝██╔══██╗██╔═══██╗██╔════╝                          ")
++	fmt.Fprintln(b, "  ██║  ███╗███████║  ███╔╝ ███████║██║   ██║███████╗                          ")
++	fmt.Fprintln(b, "  ██║   ██║██╔══██║ ███╔╝  ██╔══██║██║   ██║╚════██║                          ")
++	fmt.Fprintln(b, "  ╚██████╔╝██║  ██║███████╗██║  ██║╚██████╔╝███████║                          ")
++	fmt.Fprintln(b, "   ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝                          ")
+ 	fmt.Fprintln(b, "                                                            				   ")
+ 	fmt.Fprintln(b, "==============================================================================")
+-	fmt.Fprintf(b, "%s = %s\n", "LUNARIS_VERSION", make_vars["LUNARIS_VERSION"])
+-	fmt.Fprintf(b, "%s = %s\n", "LUNARIS_BUILD_TYPE", make_vars["LUNARIS_BUILD_TYPE"])
++	version := make_vars["GAZAOS_VERSION"]
++	if version == "" {
++		version = make_vars["LUNARIS_VERSION"]
++	}
++	buildType := make_vars["GAZAOS_BUILD_TYPE"]
++	if buildType == "" {
++		buildType = make_vars["LUNARIS_BUILD_TYPE"]
++	}
++	variant := make_vars["GAZAOS_BUILD_VARIANT"]
++	if variant == "" {
++		variant = make_vars["LUNARIS_BUILD_VARIANT"]
++	}
++	maintainer := make_vars["GAZAOS_MAINTAINER"]
++	if maintainer == "" {
++		maintainer = make_vars["LUNARIS_MAINTAINER"]
++	}
++
++	fmt.Fprintf(b, "%s = %s\n", "GAZAOS_VERSION", version)
++	fmt.Fprintf(b, "%s = %s\n", "GAZAOS_BUILD_TYPE", buildType)
+ 	fmt.Fprintf(b, "%s = %s\n", "PLATFORM_VERSION", make_vars["PLATFORM_VERSION"])
+-	fmt.Fprintf(b, "%s = %s\n", "LUNARIS_BUILD_VARIANT", make_vars["LUNARIS_BUILD_VARIANT"])
++	fmt.Fprintf(b, "%s = %s\n", "GAZAOS_BUILD_VARIANT", variant)
++	if maintainer != "" {
++		fmt.Fprintf(b, "%s = %s\n", "GAZAOS_MAINTAINER", maintainer)
++	}
+ 	fmt.Fprintf(b, "%s = %s\n", "TARGET_PRODUCT", make_vars["TARGET_PRODUCT"])
+ 	fmt.Fprintf(b, "%s = %s\n", "TARGET_BUILD_VARIANT", make_vars["TARGET_BUILD_VARIANT"])
+ 	fmt.Fprintf(b, "%s = %s\n", "TARGET_ARCH", make_vars["TARGET_ARCH"])

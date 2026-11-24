@@ -9,8 +9,22 @@
 
 set -e
 
-TOP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
-PATCH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/patches" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Resolve Android build top directory
+if [ -n "${ANDROID_BUILD_TOP}" ] && [ -d "${ANDROID_BUILD_TOP}" ]; then
+    TOP_DIR="${ANDROID_BUILD_TOP}"
+elif [ -d "$(pwd)/build/soong" ]; then
+    TOP_DIR="$(pwd)"
+elif [ -d "${SCRIPT_DIR}/../../build/soong" ]; then
+    TOP_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+elif [ -d "/data/lunaris/build/soong" ]; then
+    TOP_DIR="/data/lunaris"
+else
+    TOP_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+fi
+
+PATCH_DIR="${SCRIPT_DIR}/patches"
 
 echo "=== GazaOS Upstream Patch Application ==="
 echo "Base tree: ${TOP_DIR}"

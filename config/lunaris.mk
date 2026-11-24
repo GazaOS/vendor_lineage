@@ -153,6 +153,7 @@ PRODUCT_PACKAGES += \
     AppDataBackup
 endif
 
+$(call inherit-product-if-exists, axion-sdk/ax_tflite/common.mk)
 $(call inherit-product-if-exists, axion_sdk/ax_tflite/common.mk)
 
 ifneq ($(TARGET_DISABLE_MATLOG),true)

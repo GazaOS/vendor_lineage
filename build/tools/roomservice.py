@@ -45,22 +45,27 @@ except:
     device = product
 
 if not depsonly:
-    print("Device %s not found. Attempting to retrieve device repository from LineageOS Github (http://github.com/LineageOS)." % device)
+    print("Device %s not found. Attempting to retrieve device repository from GazaOS GitHub (https://github.com/GazaOS) or LineageOS." % device)
 
 repositories = []
 
 if not depsonly:
-    githubreq = urllib.request.Request("https://raw.githubusercontent.com/LineageOS/mirror/main/default.xml")
-    try:
-        result = ElementTree.fromstring(urllib.request.urlopen(githubreq, timeout=10).read().decode())
-    except urllib.error.URLError:
-        print("Failed to fetch data from GitHub")
-        sys.exit(1)
-    except ValueError:
-        print("Failed to parse return data from GitHub")
-        sys.exit(1)
-    for res in result.findall('.//project'):
-        repositories.append(res.attrib['name'][10:])
+    # Try fetching manifest projects from GazaOS mirror/default manifest, fallback to LineageOS
+    for mirror_url in [
+        "https://raw.githubusercontent.com/GazaOS/android/16.2/default.xml",
+        "https://raw.githubusercontent.com/LineageOS/mirror/main/default.xml"
+    ]:
+        try:
+            githubreq = urllib.request.Request(mirror_url)
+            result = ElementTree.fromstring(urllib.request.urlopen(githubreq, timeout=10).read().decode())
+            for res in result.findall('.//project'):
+                name = res.attrib.get('name', '')
+                if '/' in name:
+                    repositories.append(name.split('/', 1)[1])
+                else:
+                    repositories.append(name)
+        except Exception:
+            continue
 
 local_manifests = r'.repo/local_manifests'
 if not os.path.exists(local_manifests): os.makedirs(local_manifests)
@@ -252,11 +257,17 @@ def get_default_or_fallback_revision(repo_name):
     print("Checking branch info")
 
     try:
-        stdout = subprocess.run(
-            ["git", "ls-remote", "-h", "https://:@github.com/LineageOS/" + repo_name],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        ).stdout.decode()
+        # Check GazaOS first, fallback to LineageOS
+        stdout = ""
+        for org in ["GazaOS", "LineageOS"]:
+            res = subprocess.run(
+                ["git", "ls-remote", "-h", f"https://:@github.com/{org}/" + repo_name],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            ).stdout.decode()
+            if res:
+                stdout = res
+                break
         branches = [x.split("refs/heads/")[-1] for x in stdout.splitlines()]
     except:
         return ""
