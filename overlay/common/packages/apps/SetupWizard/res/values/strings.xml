@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2026 GazaOS
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="setup_welcome_message">Welcome to <xliff:g id="name" example="GazaOS">%1$s</xliff:g></string>
+    <string name="update_recovery_title">Update GazaOS recovery</string>
+    <string name="update_recovery_description">Update your GazaOS recovery with system updates</string>
+    <string name="update_recovery_setting">Update GazaOS recovery with system updates</string>
+    <string name="setup_services">GazaOS features</string>
+</resources>
