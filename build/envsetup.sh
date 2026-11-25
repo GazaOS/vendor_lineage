@@ -42,6 +42,7 @@ function brunch()
 
 function breakfast()
 {
+    _gazaos_apply_patches
     target=$1
     local variant=$2
     source ${ANDROID_BUILD_TOP}/vendor/lineage/vars/aosp_target_release
@@ -1033,5 +1034,18 @@ function generate_host_overrides() {
 }
 
 generate_host_overrides
+
+function _gazaos_apply_patches() {
+    local top_dir="${ANDROID_BUILD_TOP}"
+    if [ -z "${top_dir}" ]; then
+        top_dir="$(gettop 2>/dev/null)"
+    fi
+    if [ -n "${top_dir}" ] && [ -f "${top_dir}/vendor/lineage/apply-patches.sh" ]; then
+        bash "${top_dir}/vendor/lineage/apply-patches.sh" --quiet || \
+            echo "Warning: GazaOS upstream patch check encountered an error." >&2
+    fi
+}
+
+_gazaos_apply_patches
 
 export USE_THINLTO_CACHE=true
