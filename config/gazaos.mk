@@ -6,6 +6,7 @@
 # GazaOS Bootanimation configuration
 TARGET_SCREEN_WIDTH ?= 1080
 TARGET_SCREEN_HEIGHT ?= 2400
+TARGET_BOOTANIMATION ?= vendor/lineage/prebuilt/common/media/bootanimation_1080.zip
 
 ifneq ($(TARGET_BOOTANIMATION),)
 PRODUCT_COPY_FILES += \
@@ -38,7 +39,9 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 # GazaOS system identification
 PRODUCT_SYSTEM_PROPERTIES += \
     persist.sys.gazaos.brand=GazaOS \
-    persist.sys.gazaos.lab=true
+    persist.sys.gazaos.lab=true \
+    ro.gazaos.motto=Free_Palestine \
+    ro.gazaos.hybrid=Lunaris-crDroid-LineageOS
 
 # Extra packages
 PRODUCT_PACKAGES += \

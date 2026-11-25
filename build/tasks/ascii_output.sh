@@ -11,4 +11,5 @@ echo -e "${GREEN}  ██║  ███╗███████║  ███╔
 echo -e "${GREEN}  ██║   ██║██╔══██║ ███╔╝  ██╔══██║██║   ██║╚════██║${ENDCOLOR}"
 echo -e "${GREEN}  ╚██████╔╝██║  ██║███████╗██║  ██║╚██████╔╝███████║${ENDCOLOR}"
 echo -e "${GREEN}   ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝${ENDCOLOR}"
+echo -e "${BLUE}     Hybrid ROM (Lunaris + crDroid + LineageOS) | Free Palestine 🇵🇸${ENDCOLOR}"
 echo -e "${BLUE}================================================================================${ENDCOLOR}"

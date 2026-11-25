@@ -45,14 +45,15 @@ except:
     device = product
 
 if not depsonly:
-    print("Device %s not found. Attempting to retrieve device repository from GazaOS GitHub (https://github.com/GazaOS) or LineageOS." % device)
+    print("Device %s not found. Attempting to retrieve device repository from GazaOS, Lunaris-AOSP, crDroid, or LineageOS." % device)
 
 repositories = []
 
 if not depsonly:
-    # Try fetching manifest projects from GazaOS mirror/default manifest, fallback to LineageOS
+    # Try fetching manifest projects from GazaOS, Lunaris-AOSP, and LineageOS
     for mirror_url in [
         "https://raw.githubusercontent.com/GazaOS/android/16.2/default.xml",
+        "https://raw.githubusercontent.com/Lunaris-AOSP/android/16.2/default.xml",
         "https://raw.githubusercontent.com/LineageOS/mirror/main/default.xml"
     ]:
         try:
@@ -148,16 +149,17 @@ def is_in_manifest(projectpath):
         if localpath.get("path") == projectpath:
             return True
 
-    # ... and don't forget the lineage snippet
-    try:
-        lm = ElementTree.parse(".repo/manifests/snippets/lineage.xml")
-        lm = lm.getroot()
-    except:
-        lm = ElementTree.Element("manifest")
+    # ... and check GazaOS and Lineage snippets
+    for snippet_path in (".repo/manifests/snippets/gazaos.xml", ".repo/manifests/snippets/lineage.xml"):
+        try:
+            lm = ElementTree.parse(snippet_path)
+            lm = lm.getroot()
+        except Exception:
+            lm = ElementTree.Element("manifest")
 
-    for localpath in lm.findall("project"):
-        if localpath.get("path") == projectpath:
-            return True
+        for localpath in lm.findall("project"):
+            if localpath.get("path") == projectpath:
+                return True
 
     return False
 
@@ -175,15 +177,16 @@ def add_to_manifest(repositories):
         repo_name = repository['repository']
         repo_target = repository['target_path']
         repo_revision = repository['branch']
+        repo_org = repository.get('org', 'LineageOS')
         print('Checking if %s is fetched from %s' % (repo_target, repo_name))
         if is_in_manifest(repo_target):
-            print('LineageOS/%s already fetched to %s' % (repo_name, repo_target))
+            print('%s/%s already fetched to %s' % (repo_org, repo_name, repo_target))
             continue
 
         project = ElementTree.Element("project", attrib = {
             "path": repo_target,
             "remote": "github",
-            "name": "LineageOS/%s" % repo_name,
+            "name": "%s/%s" % (repo_org, repo_name),
             "revision": repo_revision })
         if repo_remote := repository.get("remote", None):
             # aosp- remotes are only used for kernel prebuilts, thus they
@@ -208,13 +211,16 @@ def add_to_manifest(repositories):
 
 def fetch_dependencies(repo_path):
     print('Looking for dependencies in %s' % repo_path)
-    dependencies_path = repo_path + '/gazaos.dependencies'
-    if not os.path.exists(dependencies_path):
-        dependencies_path = repo_path + '/lineage.dependencies'
+    dependencies_path = None
+    for dep_file in ('gazaos.dependencies', 'crdroid.dependencies', 'lunaris.dependencies', 'lineage.dependencies'):
+        candidate = os.path.join(repo_path, dep_file)
+        if os.path.exists(candidate):
+            dependencies_path = candidate
+            break
     syncable_repos = []
     verify_repos = []
 
-    if os.path.exists(dependencies_path):
+    if dependencies_path:
         dependencies_file = open(dependencies_path, 'r')
         dependencies = json.loads(dependencies_file.read())
         fetch_list = []
@@ -225,9 +231,12 @@ def fetch_dependencies(repo_path):
                 syncable_repos.append(dependency['target_path'])
                 if 'branch' not in dependency:
                     if dependency.get('remote', 'github') == 'github':
-                        dependency['branch'] = get_default_or_fallback_revision(dependency['repository'])
-                        if not dependency['branch']:
+                        branch, org = get_default_or_fallback_revision(dependency['repository'])
+                        if not branch:
                             sys.exit(1)
+                        dependency['branch'] = branch
+                        if 'org' not in dependency:
+                            dependency['org'] = org
                     else:
                         dependency['branch'] = None
             verify_repos.append(dependency['target_path'])
@@ -256,38 +265,36 @@ def get_default_or_fallback_revision(repo_name):
     print("Default revision: %s" % default_revision)
     print("Checking branch info")
 
-    try:
-        # Check GazaOS first, fallback to LineageOS
-        stdout = ""
-        for org in ["GazaOS", "LineageOS"]:
+    orgs = ["GazaOS", "Lunaris-AOSP", "crdroidandroid", "LineageOS"]
+    fallbacks = list(filter(bool, os.getenv('ROOMSERVICE_BRANCHES', '').split(' ')))
+    for candidate_branch in ["16.2", "16.0"]:
+        if candidate_branch not in fallbacks and candidate_branch != default_revision:
+            fallbacks.append(candidate_branch)
+
+    for org in orgs:
+        try:
             res = subprocess.run(
                 ["git", "ls-remote", "-h", f"https://:@github.com/{org}/" + repo_name],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             ).stdout.decode()
-            if res:
-                stdout = res
-                break
-        branches = [x.split("refs/heads/")[-1] for x in stdout.splitlines()]
-    except:
-        return ""
+        except Exception:
+            continue
+        if not res:
+            continue
 
-    if default_revision in branches:
-        return default_revision
+        branches = [x.split("refs/heads/")[-1] for x in res.splitlines()]
+        if default_revision in branches:
+            return default_revision, org
 
-    if os.getenv('ROOMSERVICE_BRANCHES'):
-        fallbacks = list(filter(bool, os.getenv('ROOMSERVICE_BRANCHES').split(' ')))
         for fallback in fallbacks:
             if fallback in branches:
-                print("Using fallback branch: %s" % fallback)
-                return fallback
+                print("Using fallback branch %s from %s" % (fallback, org))
+                return fallback, org
 
-    print("Default revision %s not found in %s. Bailing." % (default_revision, repo_name))
-    print("Branches found:")
-    for branch in branches:
-        print(branch)
+    print("Default revision %s not found in %s." % (default_revision, repo_name))
     print("Use the ROOMSERVICE_BRANCHES environment variable to specify a list of fallback branches.")
-    return ""
+    return "", "LineageOS"
 
 if depsonly:
     repo_path = get_from_manifest(device)
@@ -305,7 +312,7 @@ else:
             
             manufacturer = repo_name.replace("android_device_", "").replace("_" + device, "")
             repo_path = "device/%s/%s" % (manufacturer, device)
-            revision = get_default_or_fallback_revision(repo_name)
+            revision, org = get_default_or_fallback_revision(repo_name)
             if revision == "":
                 # Some devices have the same codename but shipped a long time ago and may not have
                 # a current branch set up.
@@ -313,7 +320,7 @@ else:
                 # to check.
                 continue
 
-            device_repository = {'repository':repo_name,'target_path':repo_path,'branch':revision}
+            device_repository = {'repository': repo_name, 'target_path': repo_path, 'branch': revision, 'org': org}
             add_to_manifest([device_repository])
 
             print("Syncing repository to retrieve project.")
