@@ -23,8 +23,8 @@ elif [ -d "$(pwd)/build/soong" ]; then
     TOP_DIR="$(pwd)"
 elif [ -d "${SCRIPT_DIR}/../../build/soong" ]; then
     TOP_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
-elif [ -d "/data/lunaris/build/soong" ]; then
-    TOP_DIR="/data/lunaris"
+elif [ -d "/data/GazaOS/build/soong" ]; then
+    TOP_DIR="/data/GazaOS"
 else
     TOP_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 fi

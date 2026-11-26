@@ -50,10 +50,22 @@ if not depsonly:
 repositories = []
 
 if not depsonly:
-    # Try fetching manifest projects from GazaOS, Lunaris-AOSP, and LineageOS
+    # Discover device repositories from GazaOS, Lunaris-AOSP, and crDroid orgs first
+    pattern = re.compile(r"^android_device_[^_]*_" + re.escape(device) + "$")
+    for org in ["GazaOS", "Lunaris-AOSP", "crdroidandroid"]:
+        try:
+            api_url = f"https://api.github.com/search/repositories?q=android_device_+_{urllib.parse.quote(device)}+in:name+org:{org}&per_page=20"
+            req = urllib.request.Request(api_url, headers={"Accept": "application/vnd.github+json", "User-Agent": "GazaOS-roomservice"})
+            data = json.loads(urllib.request.urlopen(req, timeout=10).read().decode())
+            for item in data.get("items", []):
+                repo_name = item.get("name", "")
+                if pattern.match(repo_name) and repo_name not in repositories:
+                    repositories.append(repo_name)
+        except Exception:
+            continue
+
+    # Fall back to LineageOS mirror manifest
     for mirror_url in [
-        "https://raw.githubusercontent.com/GazaOS/android/16.2/default.xml",
-        "https://raw.githubusercontent.com/Lunaris-AOSP/android/16.2/default.xml",
         "https://raw.githubusercontent.com/LineageOS/mirror/main/default.xml"
     ]:
         try:
@@ -61,10 +73,9 @@ if not depsonly:
             result = ElementTree.fromstring(urllib.request.urlopen(githubreq, timeout=10).read().decode())
             for res in result.findall('.//project'):
                 name = res.attrib.get('name', '')
-                if '/' in name:
-                    repositories.append(name.split('/', 1)[1])
-                else:
-                    repositories.append(name)
+                short_name = name.split('/', 1)[1] if '/' in name else name
+                if short_name not in repositories:
+                    repositories.append(short_name)
         except Exception:
             continue
 
@@ -229,16 +240,18 @@ def fetch_dependencies(repo_path):
             if not is_in_manifest(dependency['target_path']):
                 fetch_list.append(dependency)
                 syncable_repos.append(dependency['target_path'])
-                if 'branch' not in dependency:
-                    if dependency.get('remote', 'github') == 'github':
+                if dependency.get('remote', 'github') == 'github':
+                    if 'branch' not in dependency:
                         branch, org = get_default_or_fallback_revision(dependency['repository'])
                         if not branch:
                             sys.exit(1)
                         dependency['branch'] = branch
                         if 'org' not in dependency:
                             dependency['org'] = org
-                    else:
-                        dependency['branch'] = None
+                    elif 'org' not in dependency:
+                        dependency['org'] = resolve_org_for_branch(dependency['repository'], dependency['branch'])
+                elif 'branch' not in dependency:
+                    dependency['branch'] = None
             verify_repos.append(dependency['target_path'])
 
             if not os.path.isdir(dependency['target_path']):
@@ -255,10 +268,26 @@ def fetch_dependencies(repo_path):
     if len(syncable_repos) > 0:
         print('Syncing dependencies')
         if not dryrun:
-            os.system('repo sync --force-sync %s' % ' '.join(syncable_repos))
+            os.system('repo sync -c --no-tags --force-sync %s' % ' '.join(syncable_repos))
 
     for deprepo in verify_repos:
         fetch_dependencies(deprepo)
+
+def resolve_org_for_branch(repo_name, branch):
+    for org in ["GazaOS", "Lunaris-AOSP", "crdroidandroid", "LineageOS"]:
+        try:
+            res = subprocess.run(
+                ["git", "ls-remote", "-h", f"https://:@github.com/{org}/" + repo_name],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            ).stdout.decode()
+        except Exception:
+            continue
+        if res:
+            branches = [x.split("refs/heads/")[-1] for x in res.splitlines()]
+            if branch in branches:
+                return org
+    return "LineageOS"
 
 def get_default_or_fallback_revision(repo_name):
     default_revision = get_default_revision()
@@ -324,7 +353,7 @@ else:
             add_to_manifest([device_repository])
 
             print("Syncing repository to retrieve project.")
-            os.system('repo sync --force-sync %s' % repo_path)
+            os.system('repo sync -c --no-tags --force-sync %s' % repo_path)
             print("Repository synced!")
 
             fetch_dependencies(repo_path)

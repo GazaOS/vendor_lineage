@@ -179,10 +179,15 @@ PRODUCT_PACKAGES += \
     bash \
     curl \
     getcap \
-    htop \
     nano \
-    setcap \
+    setcap
+
+ifeq ($(WITH_EXTRA_TOOLS),true)
+PRODUCT_PACKAGES += \
+    htop \
+    rsync \
     vim
+endif
 
 PRODUCT_PACKAGES += \
     nano_recovery
@@ -210,7 +215,8 @@ PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
 PRODUCT_COPY_FILES += \
     vendor/lineage/prebuilt/common/bin/wipe-frp.sh:$(TARGET_COPY_OUT_RECOVERY)/root/system/bin/wipe-frp
 
-# Openssh
+# Openssh (opt-in to keep default system image lean)
+ifeq ($(WITH_OPENSSH),true)
 PRODUCT_PACKAGES += \
     scp \
     sftp \
@@ -222,14 +228,11 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_COPY_FILES += \
     vendor/lineage/prebuilt/common/etc/init/init.openssh.rc:$(TARGET_COPY_OUT_PRODUCT)/etc/init/init.openssh.rc
+endif
 
 # OverlayFS
 PRODUCT_PACKAGES_DEBUG += \
     disable-overlays
-
-# rsync
-PRODUCT_PACKAGES += \
-    rsync
 
 # Storage manager
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -258,11 +261,12 @@ PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
 endif
 endif
 
-# SystemUI
+# SystemUI & Launcher speed preopt
 PRODUCT_DEXPREOPT_SPEED_APPS += \
     AppLocker \
     CarSystemUI \
     GameSpace \
+    Launcher3QuickStep \
     Settings \
     SystemUI
 

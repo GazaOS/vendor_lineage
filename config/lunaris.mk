@@ -47,8 +47,9 @@ endif
 PRODUCT_COPY_FILES += \
     vendor/lineage/prebuilt/common/etc/sysconfig/preinstalled-packages-platform-crdroid-product.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/sysconfig/preinstalled-packages-platform-crdroid-product.xml
 
-# ColumbusService
-ifneq ($(TARGET_SUPPORTS_QUICK_TAP),false)
+# ColumbusService (opt-in for devices that support Quick Tap)
+TARGET_SUPPORTS_QUICK_TAP ?= false
+ifeq ($(TARGET_SUPPORTS_QUICK_TAP),true)
 PRODUCT_PACKAGES += \
     ColumbusService
 endif
@@ -96,7 +97,7 @@ USE_DEX2OAT_DEBUG := false
 OVERRIDE_DISABLE_DEXOPT_ALL := false
 PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := speed-profile
 
-TARGET_OPTIMIZED_DEXOPT ?= false
+TARGET_OPTIMIZED_DEXOPT ?= true
 ifeq ($(TARGET_OPTIMIZED_DEXOPT),true)
     PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := speed-profile
     PRODUCT_SYSTEM_PROPERTIES += \
@@ -107,17 +108,17 @@ ifeq ($(TARGET_OPTIMIZED_DEXOPT),true)
         pm.dexopt.install=speed-profile \
         pm.dexopt.install-fast=speed-profile \
         pm.dexopt.install-bulk=speed-profile \
-        pm.dexopt.install-bulk-secondary=speed \
-        pm.dexopt.install-bulk-downgraded=speed \
-        pm.dexopt.install-bulk-secondary-downgraded=speed \
-        pm.dexopt.bg-dexopt=speed \
+        pm.dexopt.install-bulk-secondary=speed-profile \
+        pm.dexopt.install-bulk-downgraded=speed-profile \
+        pm.dexopt.install-bulk-secondary-downgraded=speed-profile \
+        pm.dexopt.bg-dexopt=speed-profile \
         pm.dexopt.ab-ota=speed-profile \
         pm.dexopt.inactive=verify \
-        pm.dexopt.cmdline=speed \
+        pm.dexopt.cmdline=verify \
         pm.dexopt.first-use=speed-profile \
         pm.dexopt.secondary=speed-profile \
         pm.dexopt.shared=speed \
-        dalvik.vm.dex2oat-filter=speed \
+        dalvik.vm.dex2oat-filter=speed-profile \
         dalvik.vm.image-dex2oat-filter=speed \
         dalvik.vm.dex2oat-cpu-set=0,1,2,3,4,5,6 \
         dalvik.vm.dex2oat-threads=6
@@ -147,21 +148,26 @@ PRODUCT_PACKAGES += \
     OmniStyle \
     OptimizationEngine
 
-# Skip AppDataBackup on Pixel devices
+# Opt-in AppDataBackup (skip by default to reduce image size)
+TARGET_INCLUDE_APP_BACKUP ?= false
+ifeq ($(TARGET_INCLUDE_APP_BACKUP),true)
 ifeq ($(filter Google google,$(PRODUCT_MANUFACTURER)),)
 PRODUCT_PACKAGES += \
     AppDataBackup
+endif
 endif
 
 $(call inherit-product-if-exists, axion-sdk/ax_tflite/common.mk)
 $(call inherit-product-if-exists, axion_sdk/ax_tflite/common.mk)
 
+TARGET_DISABLE_MATLOG ?= true
 ifneq ($(TARGET_DISABLE_MATLOG),true)
 PRODUCT_PACKAGES += \
     MatLog
 endif
 
-ifneq ($(TARGET_FACE_UNLOCK_SUPPORTED),false)
+TARGET_FACE_UNLOCK_SUPPORTED ?= false
+ifeq ($(TARGET_FACE_UNLOCK_SUPPORTED),true)
 PRODUCT_PACKAGES += \
     FaceUnlock
 

@@ -13,8 +13,21 @@ DEVICE="$1"
 PRODUCT_OUT="$2"
 FILENAME="$3"
 
-# Detect build variant
-if [[ "$FILENAME" == *"vanilla"* ]]; then
+# Build information
+BUILDPROP="$PRODUCT_OUT/system/build.prop"
+TIMESTAMP=$(grep -m1 "^ro.system.build.date.utc=" "$BUILDPROP" | cut -d'=' -f2)
+if [ -z "$TIMESTAMP" ]; then
+    TIMESTAMP=$(grep -m1 "^ro.build.date.utc=" "$BUILDPROP" | cut -d'=' -f2)
+fi
+if [ -z "$TIMESTAMP" ]; then
+    TIMESTAMP=$(date +%s)
+fi
+OS_PATCH_LEVEL=$(grep -m1 "^ro.build.version.security_patch=" "$BUILDPROP" | cut -d'=' -f2)
+OS_SDK_LEVEL=$(grep -m1 "^ro.build.version.sdk=" "$BUILDPROP" | cut -d'=' -f2)
+
+# Detect build variant from system properties or filename
+EDITION=$(grep -m1 "^ro.gazaos.edition=" "$BUILDPROP" | cut -d'=' -f2 | tr '[:upper:]' '[:lower:]')
+if [ "$EDITION" = "vanilla" ] || [[ "${FILENAME,,}" == *"vanilla"* ]]; then
     BUILD_VARIANT="vanilla"
 else
     BUILD_VARIANT="gapps"
@@ -68,12 +81,6 @@ VERSION=$(echo "$FILENAME" | cut -d'-' -f5 | sed 's/v//')
 V_MAX=$(echo "$VERSION" | cut -d'.' -f1)
 V_MIN=$(echo "$VERSION" | cut -d'.' -f2)
 VERSION="$V_MAX.$V_MIN"
-
-# Build information
-BUILDPROP="$PRODUCT_OUT/system/build.prop"
-TIMESTAMP=$(grep "ro.system.build.date.utc" "$BUILDPROP" | cut -d'=' -f2)
-OS_PATCH_LEVEL=$(grep -m1 "^ro.build.version.security_patch=" "$BUILDPROP" | cut -d'=' -f2)
-OS_SDK_LEVEL=$(grep -m1 "^ro.build.version.sdk=" "$BUILDPROP" | cut -d'=' -f2)
 
 MD5=$(md5sum "$PRODUCT_OUT/$FILENAME" | cut -d' ' -f1)
 SHA256=$(sha256sum "$PRODUCT_OUT/$FILENAME" | cut -d' ' -f1)
