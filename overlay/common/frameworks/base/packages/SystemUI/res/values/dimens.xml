@@ -18,4 +18,10 @@
 <resources>
     <!-- Remove power menu shadow -->
     <dimen name="global_actions_translate">0dp</dimen>
+
+    <!-- HyperOS-Hybrid rounded card and QS radii -->
+    <dimen name="notification_corner_radius">24dp</dimen>
+    <dimen name="media_notification_corner_radius">24dp</dimen>
+    <dimen name="notification_corner_radius_small">12dp</dimen>
+    <dimen name="qs_corner_radius">24dp</dimen>
 </resources>

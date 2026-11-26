@@ -47,16 +47,36 @@ PRODUCT_PACKAGES += \
     GazaOSWallpapers
 endif
 
-# Lightweight HyperOS 4 UI sounds, notifications, ringtones, and MiSans Latin font
+# Lightweight HyperOS 4 UI sounds, alarms, notifications, ringtones, and MiSans Latin font
 PRODUCT_COPY_FILES += \
     vendor/lineage/prebuilt/common/media/audio/ui/HyperOS4_Lock.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ui/HyperOS4_Lock.ogg \
     vendor/lineage/prebuilt/common/media/audio/ui/HyperOS4_Unlock.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ui/HyperOS4_Unlock.ogg \
+    vendor/lineage/prebuilt/common/media/audio/ui/HyperOS4_ChargingStarted.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ui/HyperOS4_ChargingStarted.ogg \
+    vendor/lineage/prebuilt/common/media/audio/ui/HyperOS4_WirelessChargingStarted.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ui/HyperOS4_WirelessChargingStarted.ogg \
+    vendor/lineage/prebuilt/common/media/audio/alarms/HyperOS_AlarmClock.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/alarms/HyperOS_AlarmClock.ogg \
+    vendor/lineage/prebuilt/common/media/audio/alarms/HyperOS_Breeze.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/alarms/HyperOS_Breeze.ogg \
+    vendor/lineage/prebuilt/common/media/audio/alarms/HyperOS_Daydream.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/alarms/HyperOS_Daydream.ogg \
+    vendor/lineage/prebuilt/common/media/audio/alarms/HyperOS_Dewdrops.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/alarms/HyperOS_Dewdrops.ogg \
+    vendor/lineage/prebuilt/common/media/audio/alarms/HyperOS_Fireflies.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/alarms/HyperOS_Fireflies.ogg \
+    vendor/lineage/prebuilt/common/media/audio/alarms/HyperOS_Morning.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/alarms/HyperOS_Morning.ogg \
+    vendor/lineage/prebuilt/common/media/audio/alarms/HyperOS_Sunrise.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/alarms/HyperOS_Sunrise.ogg \
+    vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_Bottle.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_Bottle.ogg \
     vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_Bubble.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_Bubble.ogg \
+    vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_Chirp.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_Chirp.ogg \
     vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_Crystal.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_Crystal.ogg \
+    vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_Fresh.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_Fresh.ogg \
+    vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_Harp.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_Harp.ogg \
+    vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_Moment.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_Moment.ogg \
+    vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_Spring.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_Spring.ogg \
     vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_WaterDrop.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_WaterDrop.ogg \
     vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_WindChime.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_WindChime.ogg \
+    vendor/lineage/prebuilt/common/media/audio/ringtones/HyperOS_Celesta.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ringtones/HyperOS_Celesta.ogg \
     vendor/lineage/prebuilt/common/media/audio/ringtones/HyperOS_Mi.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ringtones/HyperOS_Mi.ogg \
     vendor/lineage/prebuilt/common/media/audio/ringtones/HyperOS_MiHouse.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ringtones/HyperOS_MiHouse.ogg \
+    vendor/lineage/prebuilt/common/media/audio/ringtones/HyperOS_MiJazz.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ringtones/HyperOS_MiJazz.ogg \
+    vendor/lineage/prebuilt/common/media/audio/ringtones/HyperOS_MiMix2.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ringtones/HyperOS_MiMix2.ogg \
+    vendor/lineage/prebuilt/common/media/audio/ringtones/HyperOS_MountainSpring.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ringtones/HyperOS_MountainSpring.ogg \
+    vendor/lineage/prebuilt/common/media/audio/ringtones/HyperOS_Reveries.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ringtones/HyperOS_Reveries.ogg \
     vendor/lineage/prebuilt/common/fonts/MiSansLatinVF.ttf:$(TARGET_COPY_OUT_PRODUCT)/fonts/MiSansLatinVF.ttf
 
 # ViPER4AndroidFX Audio Suite

@@ -341,7 +341,7 @@ endif
 
 # Signing keys
 ifeq ($(GAZAOS_BUILD_TYPE),OFFICIAL)
-    $(call inherit-product-if-exists, vendor/lunaris-priv/keys/keys.mk)
+    $(call inherit-product-if-exists, vendor/lineage-priv/keys/keys.mk)
 endif
 
 ifeq ($(WITH_GMS), true)

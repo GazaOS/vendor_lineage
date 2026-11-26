@@ -466,4 +466,9 @@
     <bool name="config_enableBurnInProtection">true</bool>
 
     <item name="config_wallpaperMaxScale" format="float" type="dimen">1.30</item>
+
+    <!-- HyperOS-Hybrid smooth squircle corner radii -->
+    <dimen name="config_dialogCornerRadius">24dp</dimen>
+    <dimen name="config_bottomDialogCornerRadius">24dp</dimen>
+    <dimen name="config_buttonCornerRadius">16dp</dimen>
 </resources>
