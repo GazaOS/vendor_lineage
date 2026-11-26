@@ -98,7 +98,12 @@ ifeq ($(TARGET_KERNEL_NO_GCC), true)
 endif
 
 ifneq ($(TARGET_KERNEL_CLANG_VERSION),)
-    KERNEL_CLANG_VERSION := clang-$(TARGET_KERNEL_CLANG_VERSION)
+    ifneq ($(wildcard $(BUILD_TOP)/prebuilts/clang/host/$(HOST_PREBUILT_TAG)/clang-$(TARGET_KERNEL_CLANG_VERSION)/bin/clang),)
+        KERNEL_CLANG_VERSION := clang-$(TARGET_KERNEL_CLANG_VERSION)
+    else
+        $(warning Requested TARGET_KERNEL_CLANG_VERSION clang-$(TARGET_KERNEL_CLANG_VERSION) not found, falling back to $(LLVM_AOSP_PREBUILTS_VERSION))
+        KERNEL_CLANG_VERSION := $(LLVM_AOSP_PREBUILTS_VERSION)
+    endif
 else
     # Use the default version of clang if TARGET_KERNEL_CLANG_VERSION hasn't been set by the device config
     KERNEL_CLANG_VERSION := $(LLVM_AOSP_PREBUILTS_VERSION)
