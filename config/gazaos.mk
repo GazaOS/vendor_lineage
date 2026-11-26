@@ -36,6 +36,7 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
 PRODUCT_SYSTEM_PROPERTIES += \
     persist.sys.gazaos.brand=GazaOS \
     persist.sys.gazaos.lab=true \
+    ro.gazaos.logo=gazaos \
     ro.gazaos.motto=Free_Palestine \
     ro.gazaos.hybrid=Lunaris-crDroid-LineageOS \
     ro.gazaos.ui=HyperOS-Hybrid

@@ -19,4 +19,8 @@
 
     <!-- Default for LineageSettings.Secure.STATS_COLLECTION -->
     <bool name="def_stats_collection">true</bool>
+
+    <!-- HyperOS-Hybrid status bar defaults: left clock + crisp native battery pill -->
+    <integer name="def_clock_position">2</integer>
+    <integer name="def_battery_style">0</integer>
 </resources>

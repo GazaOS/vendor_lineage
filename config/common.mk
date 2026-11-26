@@ -319,6 +319,7 @@ PRODUCT_EXTRA_RECOVERY_KEYS += \
 include vendor/lineage/config/version.mk
 
 -include vendor/lineage-priv/keys/keys.mk
+-include vendor/gazaos-priv/keys/keys.mk
 
 ifeq ($(WITH_GMS),true)
 PRODUCT_PACKAGES += \
@@ -338,9 +339,9 @@ endif
 -include $(WORKSPACE)/build_env/image-auto-bits.mk
 -include vendor/lineage/config/partner_gms.mk
 
-# Singing keys
-ifeq ($(LUNARIS_BUILD_TYPE),OFFICIAL)
-    $(call inherit-product, vendor/lunaris-priv/keys/keys.mk)
+# Signing keys
+ifeq ($(GAZAOS_BUILD_TYPE),OFFICIAL)
+    $(call inherit-product-if-exists, vendor/lunaris-priv/keys/keys.mk)
 endif
 
 ifeq ($(WITH_GMS), true)
