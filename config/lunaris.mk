@@ -132,21 +132,47 @@ ifeq ($(TARGET_OPTIMIZED_DEXOPT),true)
 
 endif
 
-# Extra packages
+# Core lightweight packages
 PRODUCT_PACKAGES += \
     AxQuickLook \
     AxSandbox \
-    AxThemeStore \
-    BatteryStatsViewer \
     BtHelper \
-    GameSpace \
-    LMOFreeform \
-    LMOFreeformSidebar \
     LunarisLockStyles \
     LunarisMonet \
     OmniJaws \
-    OmniStyle \
     OptimizationEngine
+
+# Opt-in heavy/extra packages (disabled by default for lite ROM builds)
+TARGET_INCLUDE_AX_THEME_STORE ?= false
+ifeq ($(TARGET_INCLUDE_AX_THEME_STORE),true)
+PRODUCT_PACKAGES += \
+    AxThemeStore
+endif
+
+TARGET_INCLUDE_BATTERY_STATS ?= false
+ifeq ($(TARGET_INCLUDE_BATTERY_STATS),true)
+PRODUCT_PACKAGES += \
+    BatteryStatsViewer
+endif
+
+TARGET_INCLUDE_GAMESPACE ?= false
+ifeq ($(TARGET_INCLUDE_GAMESPACE),true)
+PRODUCT_PACKAGES += \
+    GameSpace
+endif
+
+TARGET_INCLUDE_FREEFORM ?= false
+ifeq ($(TARGET_INCLUDE_FREEFORM),true)
+PRODUCT_PACKAGES += \
+    LMOFreeform \
+    LMOFreeformSidebar
+endif
+
+TARGET_INCLUDE_OMNISTYLE ?= false
+ifeq ($(TARGET_INCLUDE_OMNISTYLE),true)
+PRODUCT_PACKAGES += \
+    OmniStyle
+endif
 
 # Opt-in AppDataBackup (skip by default to reduce image size)
 TARGET_INCLUDE_APP_BACKUP ?= false

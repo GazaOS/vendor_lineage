@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2026 GazaOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <string name="app_name">GazaOS Wallpapers</string>
+
+    <string name="category_hyperos4_classic">HyperOS 4 Classic</string>
+    <string name="category_hyperos4_softlight">HyperOS 4 Soft Light</string>
+    <string name="category_hyperos4_editorial">HyperOS 4 Magazine &amp; AI</string>
+
+    <string name="wp_horizon_title">Horizon</string>
+    <string name="wp_classic_01_title">Classic I</string>
+    <string name="wp_classic_02_title">Classic II</string>
+    <string name="wp_classic_03_title">Classic III</string>
+    <string name="wp_classic_04_title">Classic IV</string>
+    <string name="wp_softlight_01_title">Soft Light I</string>
+    <string name="wp_softlight_02_title">Soft Light II</string>
+    <string name="wp_softlight_03_title">Soft Light III</string>
+    <string name="wp_softlight_04_title">Soft Light IV</string>
+    <string name="wp_softlight_05_title">Soft Light V</string>
+    <string name="wp_softlight_06_title">Soft Light VI</string>
+    <string name="wp_magazine_01_title">Magazine I</string>
+    <string name="wp_magazine_02_title">Magazine II</string>
+    <string name="wp_east_01_title">East I</string>
+    <string name="wp_east_02_title">East II</string>
+    <string name="wp_ai_01_title">Prism Flow</string>
+    <string name="wp_ai_02_title">Mineral Wave</string>
+
+    <string name="wp_subtitle_hyperos4">HyperOS 4 Collection</string>
+</resources>

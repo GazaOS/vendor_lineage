@@ -1,0 +1,19 @@
+//
+// Copyright (C) 2026 GazaOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+android_app {
+    name: "GazaOSWallpapers",
+    srcs: ["src/**/*.java"],
+    resource_dirs: ["res"],
+    sdk_version: "current",
+    certificate: "platform",
+    product_specific: true,
+    optimize: {
+        enabled: false,
+    },
+    aaptflags: [
+        "-0 .webp",
+    ],
+}

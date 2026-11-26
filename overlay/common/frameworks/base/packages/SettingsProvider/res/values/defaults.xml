@@ -39,4 +39,8 @@
 
     <!-- Default for Settings.System.VIBRATE_WHEN_RINGING -->
     <bool name="def_vibrate_when_ringing">true</bool>
+
+    <!-- HyperOS 4 UI lock/unlock sounds -->
+    <string name="def_lock_sound" translatable="false">/product/media/audio/ui/HyperOS4_Lock.ogg</string>
+    <string name="def_unlock_sound" translatable="false">/product/media/audio/ui/HyperOS4_Unlock.ogg</string>
 </resources>

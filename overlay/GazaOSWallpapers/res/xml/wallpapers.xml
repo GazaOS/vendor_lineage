@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2026 GazaOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<wallpapers>
+    <category
+        id="hyperos4_classic"
+        title="@string/category_hyperos4_classic"
+        featured="hyperos4_horizon"
+        priority="10">
+        <static-wallpaper
+            id="hyperos4_horizon"
+            src="@drawable/hyperos4_horizon"
+            thumbnail="@drawable/hyperos4_horizon"
+            title="@string/wp_horizon_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_classic_01"
+            src="@drawable/hyperos4_classic_01"
+            thumbnail="@drawable/hyperos4_classic_01"
+            title="@string/wp_classic_01_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_classic_02"
+            src="@drawable/hyperos4_classic_02"
+            thumbnail="@drawable/hyperos4_classic_02"
+            title="@string/wp_classic_02_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_classic_03"
+            src="@drawable/hyperos4_classic_03"
+            thumbnail="@drawable/hyperos4_classic_03"
+            title="@string/wp_classic_03_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_classic_04"
+            src="@drawable/hyperos4_classic_04"
+            thumbnail="@drawable/hyperos4_classic_04"
+            title="@string/wp_classic_04_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+    </category>
+
+    <category
+        id="hyperos4_softlight"
+        title="@string/category_hyperos4_softlight"
+        featured="hyperos4_softlight_01"
+        priority="20">
+        <static-wallpaper
+            id="hyperos4_softlight_01"
+            src="@drawable/hyperos4_softlight_01"
+            thumbnail="@drawable/hyperos4_softlight_01"
+            title="@string/wp_softlight_01_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_softlight_02"
+            src="@drawable/hyperos4_softlight_02"
+            thumbnail="@drawable/hyperos4_softlight_02"
+            title="@string/wp_softlight_02_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_softlight_03"
+            src="@drawable/hyperos4_softlight_03"
+            thumbnail="@drawable/hyperos4_softlight_03"
+            title="@string/wp_softlight_03_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_softlight_04"
+            src="@drawable/hyperos4_softlight_04"
+            thumbnail="@drawable/hyperos4_softlight_04"
+            title="@string/wp_softlight_04_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_softlight_05"
+            src="@drawable/hyperos4_softlight_05"
+            thumbnail="@drawable/hyperos4_softlight_05"
+            title="@string/wp_softlight_05_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_softlight_06"
+            src="@drawable/hyperos4_softlight_06"
+            thumbnail="@drawable/hyperos4_softlight_06"
+            title="@string/wp_softlight_06_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+    </category>
+
+    <category
+        id="hyperos4_editorial"
+        title="@string/category_hyperos4_editorial"
+        featured="hyperos4_magazine_01"
+        priority="30">
+        <static-wallpaper
+            id="hyperos4_magazine_01"
+            src="@drawable/hyperos4_magazine_01"
+            thumbnail="@drawable/hyperos4_magazine_01"
+            title="@string/wp_magazine_01_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_magazine_02"
+            src="@drawable/hyperos4_magazine_02"
+            thumbnail="@drawable/hyperos4_magazine_02"
+            title="@string/wp_magazine_02_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_east_01"
+            src="@drawable/hyperos4_east_01"
+            thumbnail="@drawable/hyperos4_east_01"
+            title="@string/wp_east_01_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_east_02"
+            src="@drawable/hyperos4_east_02"
+            thumbnail="@drawable/hyperos4_east_02"
+            title="@string/wp_east_02_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_ai_01"
+            src="@drawable/hyperos4_ai_01"
+            thumbnail="@drawable/hyperos4_ai_01"
+            title="@string/wp_ai_01_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+        <static-wallpaper
+            id="hyperos4_ai_02"
+            src="@drawable/hyperos4_ai_02"
+            thumbnail="@drawable/hyperos4_ai_02"
+            title="@string/wp_ai_02_title"
+            subtitle1="@string/wp_subtitle_hyperos4" />
+    </category>
+</wallpapers>

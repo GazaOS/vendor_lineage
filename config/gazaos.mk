@@ -37,7 +37,26 @@ PRODUCT_SYSTEM_PROPERTIES += \
     persist.sys.gazaos.brand=GazaOS \
     persist.sys.gazaos.lab=true \
     ro.gazaos.motto=Free_Palestine \
-    ro.gazaos.hybrid=Lunaris-crDroid-LineageOS
+    ro.gazaos.hybrid=Lunaris-crDroid-LineageOS \
+    ro.gazaos.ui=HyperOS-Hybrid
+
+# Lightweight HyperOS 4 Wallpapers (Partner Customization)
+ifneq ($(TARGET_EXCLUDE_HYPEROS_WALLPAPERS),true)
+PRODUCT_PACKAGES += \
+    GazaOSWallpapers
+endif
+
+# Lightweight HyperOS 4 UI sounds, notifications, ringtones, and MiSans Latin font
+PRODUCT_COPY_FILES += \
+    vendor/lineage/prebuilt/common/media/audio/ui/HyperOS4_Lock.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ui/HyperOS4_Lock.ogg \
+    vendor/lineage/prebuilt/common/media/audio/ui/HyperOS4_Unlock.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ui/HyperOS4_Unlock.ogg \
+    vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_Bubble.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_Bubble.ogg \
+    vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_Crystal.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_Crystal.ogg \
+    vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_WaterDrop.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_WaterDrop.ogg \
+    vendor/lineage/prebuilt/common/media/audio/notifications/HyperOS_WindChime.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/HyperOS_WindChime.ogg \
+    vendor/lineage/prebuilt/common/media/audio/ringtones/HyperOS_Mi.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ringtones/HyperOS_Mi.ogg \
+    vendor/lineage/prebuilt/common/media/audio/ringtones/HyperOS_MiHouse.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ringtones/HyperOS_MiHouse.ogg \
+    vendor/lineage/prebuilt/common/fonts/MiSansLatinVF.ttf:$(TARGET_COPY_OUT_PRODUCT)/fonts/MiSansLatinVF.ttf
 
 # ViPER4AndroidFX Audio Suite
 ifneq ($(TARGET_EXCLUDE_V4A),true)
