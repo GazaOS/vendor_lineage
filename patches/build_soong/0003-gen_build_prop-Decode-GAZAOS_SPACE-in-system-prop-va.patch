@@ -1,0 +1,25 @@
+From 857e3f7977810627b2f049aaa8a04d9df3fd0859 Mon Sep 17 00:00:00 2001
+From: Gtajisan <124022055+Gtajisan@users.noreply.github.com>
+Date: Fri, 27 Nov 2026 10:20:30 +0000
+Subject: [PATCH] gen_build_prop: Decode __GAZAOS_SPACE__ in property variables
+
+---
+ scripts/gen_build_prop.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/gen_build_prop.py b/scripts/gen_build_prop.py
+index e11a67b3d..7e36feb82 100644
+--- a/scripts/gen_build_prop.py
++++ b/scripts/gen_build_prop.py
+@@ -299,7 +299,7 @@ def write_properties_from_variable(name, props, build_broken_dup_sysprop):
+     props = processed_props
+ 
+   for line in props:
+-    print(line)
++    print(line.replace("__GAZAOS_SPACE__", " "))
+ 
+ def append_additional_system_props(args):
+   props = []
+-- 
+2.34.1
+

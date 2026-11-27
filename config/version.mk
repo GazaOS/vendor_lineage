@@ -20,8 +20,12 @@ LUNARIS_BUILD_TYPE ?= $(GAZAOS_BUILD_TYPE)
 ifdef LUNARIS_MAINTAINER
 GAZAOS_MAINTAINER ?= $(LUNARIS_MAINTAINER)
 endif
-GAZAOS_MAINTAINER ?= GazaOS
+GAZAOS_MAINTAINER ?= GazaOS Team
 LUNARIS_MAINTAINER ?= $(GAZAOS_MAINTAINER)
+
+_gazaos_empty :=
+_gazaos_space := $(_gazaos_empty) $(_gazaos_empty)
+_GAZAOS_MAINTAINER_ESC := $(subst $(_gazaos_space),__GAZAOS_SPACE__,$(strip $(GAZAOS_MAINTAINER)))
 
 ifeq ($(WITH_GMS),true)
 GAZAOS_BUILD_VARIANT := GMS
@@ -46,19 +50,19 @@ PRODUCT_SYSTEM_PROPERTIES += \
     ro.gazaos.build.type=$(GAZAOS_BUILD_TYPE) \
     ro.gazaos.package.type=$(GAZAOS_BUILD_TYPE) \
     ro.gazaos.edition=$(GAZAOS_BUILD_VARIANT) \
-    ro.gazaos.maintainer=$(GAZAOS_MAINTAINER) \
+    ro.gazaos.maintainer=$(_GAZAOS_MAINTAINER_ESC) \
     ro.crdroid.version=$(GAZAOS_VERSION) \
     ro.crdroid.build.version=$(GAZAOS_VERSION) \
     ro.crdroid.display.version=$(LINEAGE_DISPLAY_VERSION) \
     ro.crdroid.build.type=$(GAZAOS_BUILD_TYPE) \
     ro.crdroid.package.type=$(GAZAOS_BUILD_TYPE) \
     ro.crdroid.edition=$(GAZAOS_BUILD_VARIANT) \
-    ro.crdroid.maintainer=$(GAZAOS_MAINTAINER) \
+    ro.crdroid.maintainer=$(_GAZAOS_MAINTAINER_ESC) \
     ro.lunaris.build.version=$(GAZAOS_VERSION) \
     ro.lunaris.display.version=$(LINEAGE_DISPLAY_VERSION) \
     ro.lunaris.version=$(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR) \
     ro.lunaris.package.type=$(GAZAOS_BUILD_TYPE) \
-    ro.lunaris.maintainer=$(GAZAOS_MAINTAINER)
+    ro.lunaris.maintainer=$(_GAZAOS_MAINTAINER_ESC)
 
 ifdef LINEAGE_BUILD
 PRODUCT_SYSTEM_PROPERTIES += \
