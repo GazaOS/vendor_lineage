@@ -51,10 +51,10 @@ repositories = []
 
 if not depsonly:
     # Discover device repositories from GazaOS, Lunaris-AOSP, and crDroid orgs first
-    pattern = re.compile(r"^android_device_[^_]*_" + re.escape(device) + "$")
+    pattern = re.compile(r"^(?:android_)?device_[^_]*_" + re.escape(device) + "$")
     for org in ["GazaOS", "Lunaris-AOSP", "crdroidandroid"]:
         try:
-            api_url = f"https://api.github.com/search/repositories?q=android_device_+_{urllib.parse.quote(device)}+in:name+org:{org}&per_page=20"
+            api_url = f"https://api.github.com/search/repositories?q=device_{urllib.parse.quote(device)}+in:name+org:{org}&per_page=20"
             req = urllib.request.Request(api_url, headers={"Accept": "application/vnd.github+json", "User-Agent": "GazaOS-roomservice"})
             data = json.loads(urllib.request.urlopen(req, timeout=10).read().decode())
             for item in data.get("items", []):
@@ -132,7 +132,7 @@ def get_from_manifest(devicename):
             lm = ElementTree.Element("manifest")
 
         for localpath in lm.findall("project"):
-            if re.search("android_device_.*_%s$" % device, localpath.get("name")):
+            if re.search(r"(?:^|/)(?:android_)?device_.*_%s$" % re.escape(device), localpath.get("name", "")):
                 return localpath.get("path")
 
     return None
@@ -336,10 +336,10 @@ if depsonly:
 
 else:
     for repo_name in repositories:
-        if re.match(r"^android_device_[^_]*_" + device + "$", repo_name):
+        if re.match(r"^(?:android_)?device_[^_]*_" + re.escape(device) + "$", repo_name):
             print("Found repository: %s" % repo_name)
             
-            manufacturer = repo_name.replace("android_device_", "").replace("_" + device, "")
+            manufacturer = re.sub(r"^(?:android_)?device_", "", repo_name).replace("_" + device, "")
             repo_path = "device/%s/%s" % (manufacturer, device)
             revision, org = get_default_or_fallback_revision(repo_name)
             if revision == "":
