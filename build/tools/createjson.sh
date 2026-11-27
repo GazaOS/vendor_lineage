@@ -76,6 +76,14 @@ if [ -f "$existingOTAjson" ]; then
     KERNEL=$(extract_field "kernel")
 fi
 
+# Fallback to system build.prop for official metadata when vendor/OTA json is absent
+if [ -z "$MAINTAINER" ]; then
+    MAINTAINER=$(grep -m1 "^ro.gazaos.maintainer=" "$BUILDPROP" | cut -d'=' -f2-)
+fi
+if [ -z "$BUILDTYPE" ]; then
+    BUILDTYPE=$(grep -m1 "^ro.gazaos.build.type=" "$BUILDPROP" | cut -d'=' -f2-)
+fi
+
 # Extract version from filename
 VERSION=$(echo "$FILENAME" | cut -d'-' -f5 | sed 's/v//')
 V_MAX=$(echo "$VERSION" | cut -d'.' -f1)
@@ -120,7 +128,7 @@ cat <<EOF >"$output"
 }
 EOF
 
-if [ ! -f "$existingOTAjson" ]; then
+if [ ! -f "$existingOTAjson" ] && [ "${BUILDTYPE^^}" != "OFFICIAL" ]; then
     echo "There is no official support for this device yet"
 fi
 
